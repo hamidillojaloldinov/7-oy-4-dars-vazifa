@@ -23,6 +23,15 @@ export const counterSlice = createSlice({
       }
       counterSlice.caseReducers.calculateTotal(state);
     },
+    changeAmount: (state, { payload }) => {
+      const item = state.products.find((item) => item.id == payload.id);
+      if (payload.type == "increase") {
+        item.amount += 1;
+      } else {
+        item.amount -= 1;
+      }
+      counterSlice.caseReducers.calculateTotal(state);
+    },
     removeProduct: (state, { payload }) => {
       state.products = state.products.filter((item) => {
         return item.id != payload;
@@ -46,6 +55,6 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { addProduct, removeProduct } = counterSlice.actions;
+export const { addProduct, removeProduct, changeAmount } = counterSlice.actions;
 
 export default counterSlice.reducer;

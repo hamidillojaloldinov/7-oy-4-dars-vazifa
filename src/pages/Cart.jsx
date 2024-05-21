@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { FaTrashAlt } from "react-icons/fa";
-import { removeProduct } from "../counterSlice";
+import { changeAmount, removeProduct } from "../counterSlice";
 import { Link } from "react-router-dom";
 
 function Cart() {
@@ -31,6 +31,7 @@ function Cart() {
                 <th>Name / type</th>
                 <th>description</th>
                 <th>prise</th>
+                <th>amount</th>
                 <th></th>
               </tr>
             </thead>
@@ -67,6 +68,30 @@ function Cart() {
                         style: "currency",
                       }).format(product.amount * product.price)}
                     </td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() =>
+                            dispatch(
+                              changeAmount({ id: product.id, type: "increase" })
+                            )
+                          }
+                        >
+                          +
+                        </button>
+                        {product.amount}
+                        <button
+                          disabled={product.amount == 1 ? true : false}
+                          onClick={() =>
+                            dispatch(
+                              changeAmount({ id: product.id, type: "decrease" })
+                            )
+                          }
+                        >
+                          -
+                        </button>
+                      </div>
+                    </td>
                     <th>
                       <button
                         onClick={() => dispatch(removeProduct(product.id))}
@@ -79,6 +104,7 @@ function Cart() {
                 );
               })}
             </tbody>
+            <tfoot></tfoot>
           </table>
         </div>
       </>
